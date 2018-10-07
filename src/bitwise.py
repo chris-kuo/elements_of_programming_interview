@@ -5,6 +5,7 @@ def propagate_lowest_set_bit(x):
     # x | (x - 1) sets all bits lower than lowest-set bit in x to 1
     return 0 if x == 0 else x | (x - 1)
 
+
 def propagate_lowest_set_bit_test():
     # unit test for propagate_lowest_set_bit()
     print("Starting propagate_lowest_set_bit_test()...")
@@ -22,8 +23,14 @@ def propagate_lowest_set_bit_test():
         args = test["args"]
         expected = test["expected"]
         ret = propagate_lowest_set_bit(*args)
-        print("Pass" if ret == expected else "Fail. Expected %s, got %s" % (format(expected, '#010b'), format(ret, '#010b')))
+        print(
+            "Pass"
+            if ret == expected
+            else "Fail. Expected %s, got %s"
+            % (format(expected, "#010b"), format(ret, "#010b"))
+        )
     print()
+
 
 propagate_lowest_set_bit_test()
 
@@ -38,6 +45,7 @@ def weight_binary_number(x):
         x &= x - 1
         weight += 1
     return weight
+
 
 def weight_binary_number_test():
     # unit test for weight_binary_number()
@@ -56,8 +64,11 @@ def weight_binary_number_test():
         args = test["args"]
         expected = test["expected"]
         ret = weight_binary_number(*args)
-        print("Pass" if ret == expected else "Fail. Expected %d, got %d" % (expected, ret))
+        print(
+            "Pass" if ret == expected else "Fail. Expected %d, got %d" % (expected, ret)
+        )
     print()
+
 
 weight_binary_number_test()
 
