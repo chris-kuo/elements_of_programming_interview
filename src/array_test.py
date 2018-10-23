@@ -150,5 +150,21 @@ class RearrangeTest(unittest.TestCase):
 			self.assertTrue(arr[i-1] <= arr[i])
 			self.assertTrue(arr[i] >= arr[i+1])
 
+
+class RearrangeTest(unittest.TestCase):
+	def test_valid_inputs(self):
+		arr = [random.randint(0, 100) for _ in range(100)]
+		arrays.rearrange2(arr)
+		# check
+		for i in range(1, len(arr) - 1, 2):
+			self.assertTrue(arr[i-1] <= arr[i])
+			self.assertTrue(arr[i] >= arr[i+1])
+		arr = [random.randint(-100, 100) for _ in range(100)]
+		arrays.rearrange2(arr)
+		# check
+		for i in range(1, len(arr) - 1, 2):
+			self.assertTrue(arr[i-1] <= arr[i])
+			self.assertTrue(arr[i] >= arr[i+1])
+
 if __name__ == '__main__':
 	unittest.main()

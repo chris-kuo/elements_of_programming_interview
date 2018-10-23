@@ -199,3 +199,15 @@ def rearrange(A):
 	for i in range(1, len(A) - 1, 2):
 		A[i], A[i+1] = A[i+1], A[i]
 	return A
+
+def rearrange2(A):
+	'''
+	Same as rearrange(), but with O(n) time implementation
+	'''
+	for i in range(len(A) - 1):
+		a, b = A[i], A[i+1]
+		if i % 2 == 0:
+			A[i], A[i+1] = (A[i], A[i+1]) if a <= b else (A[i+1], A[i])
+		else:
+			A[i], A[i+1] = (A[i], A[i+1]) if a >= b else (A[i+1], A[i])
+	return A
