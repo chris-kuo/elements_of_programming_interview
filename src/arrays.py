@@ -183,12 +183,9 @@ def buy_sell_stock_twice(prices):
 		lowest_price_so_far = min(lowest_price_so_far, price)
 		maximum_profit = max(maximum_profit, price - lowest_price_so_far)
 		profit_by_i[i] = maximum_profit
-	profit_after_i = [0] * N
 	highest_price_so_far = float('-Inf')
 	maximum_profit = 0.0
-	for i, price in reversed(list(enumerate(prices))):
+	for i, price in reversed(list(enumerate(prices[1:], 1))):
 		highest_price_so_far = max(highest_price_so_far, price)
-		maximum_profit = max(maximum_profit, highest_price_so_far - price)
-		profit_after_i[i] = maximum_profit
-	maximum_profits = [profit_by_i[i] + profit_after_i[i+1] for i in range(N-1)]
-	return max(maximum_profits)
+		maximum_profit = max(maximum_profit, highest_price_so_far - price + profit_by_i[i-1])
+	return maximum_profit
