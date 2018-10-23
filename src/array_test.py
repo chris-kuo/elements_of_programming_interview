@@ -112,5 +112,28 @@ class DeleteDuplicatesTest(unittest.TestCase):
 		self.assertEqual(arrays.delete_duplicates([2,3,5,5,7,11,11,11,13]), [2,3,5,7, 11, 13])
 		self.assertEqual(arrays.delete_duplicates([]), [])
 
+class DeleteFromArrayTest(unittest.TestCase):
+	def test_valid_inputs(self):
+		arr = [1, 2, 3, 4, 5, 6, 7]
+		key = [3, 6, 9]
+		self.assertEqual(arrays.delete_from_array(arr, key), [1, 2, 4, 5, 7])
+
+
+class MTimesToTwice(unittest.TestCase):
+	def test_valid_inputs(self):
+		arr = [1, 1, 1, 1, 2, 2, 2, 3, 4, 4, 5, 6, 6, 6, 6, 7, 7, 8, 9, 9, 9, 9, 10, 10, 11, 11]
+		m = 4
+		self.assertEqual(arrays.m_times_to_twice(arr, m), [1, 1, 2, 2, 2, 3, 4, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10, 10, 11, 11])
+
+class BuySellStockOnceTest(unittest.TestCase):
+	def test_valid_inputs(self):
+		prices = [310, 315, 275, 295, 260, 270, 290, 230, 255, 250]
+		self.assertEqual(arrays.buy_sell_stock_once(prices), 30)
+
+class BuySellStockTwiceTest(unittest.TestCase):
+	def test_valid_inputs(self):
+		prices = [12, 11, 13, 9, 12, 8, 14, 13, 15]
+		self.assertEqual(arrays.buy_sell_stock_twice(prices), 10)
+
 if __name__ == '__main__':
 	unittest.main()

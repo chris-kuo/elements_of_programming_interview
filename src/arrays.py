@@ -114,3 +114,81 @@ def delete_duplicates(arr):
 	if num_to_delete > 0:
 		del arr[-num_to_delete:]
 	return arr
+
+def delete_from_array(arr, items):
+	if not arr:
+		return arr
+	next_pos = 0
+	num_remaining = len(arr)
+	for i in range(len(arr)):
+		if arr[i] in items:
+			# remove entry
+			num_remaining -= 1
+		else: # keep entry. Copy to next position
+			arr[next_pos] = arr[i]
+			next_pos += 1
+	# delete entries
+	del arr[num_remaining:]
+	return arr
+
+def m_times_to_twice(arr, m):
+	'''
+	if an item appears exactly m times in sorted array arr, it is
+	updated to appear exactly twice
+	'''
+	if not arr:
+		return arr
+	occurrences = 0
+	next_pos = 0
+	val = arr[0]
+	for i in range(len(arr)):
+		if arr[i] == val:
+			occurrences += 1
+		else: # val != arr[i]
+			# check occurrences
+			if occurrences == m:
+				arr[next_pos], arr[next_pos+1] = val, val
+				next_pos += 2
+				val = arr[i]
+				occurrences = 1
+			else:
+				arr[next_pos:next_pos+occurrences] = [val] * occurrences
+				next_pos += occurrences
+				val = arr[i]
+				occurrences = 1
+	# fill in occurrences of last unique number
+	arr[next_pos:next_pos+occurrences] = [val] * occurrences
+	del arr[next_pos + occurrences:]
+	return arr
+
+def buy_sell_stock_once(prices):
+	# The profit of buying at i-th day is proportional to the maximum
+	# stock price that comes after
+	# max profit
+
+	# first determine the maximum price at or after position i
+	N = len(prices)
+	max_after = [prices[-1]] * N
+	for i in reversed(range(N-1)):
+		max_after[i] = prices[i] if prices[i] > max_after[i+1] else max_after[i+1]
+	profits = [max_after[i] - prices[i] for i in range(N)]
+	return max(profits)
+
+def buy_sell_stock_twice(prices):
+	N = len(prices)
+	lowest_price_so_far = float('Inf')
+	maximum_profit = 0.0
+	profit_by_i = [0] * N
+	for i, price in enumerate(prices):
+		lowest_price_so_far = min(lowest_price_so_far, price)
+		maximum_profit = max(maximum_profit, price - lowest_price_so_far)
+		profit_by_i[i] = maximum_profit
+	profit_after_i = [0] * N
+	highest_price_so_far = float('-Inf')
+	maximum_profit = 0.0
+	for i, price in reversed(list(enumerate(prices))):
+		highest_price_so_far = max(highest_price_so_far, price)
+		maximum_profit = max(maximum_profit, highest_price_so_far - price)
+		profit_after_i[i] = maximum_profit
+	maximum_profits = [profit_by_i[i] + profit_after_i[i+1] for i in range(N-1)]
+	return max(maximum_profits)
