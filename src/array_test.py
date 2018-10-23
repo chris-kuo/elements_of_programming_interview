@@ -135,5 +135,20 @@ class BuySellStockTwiceTest(unittest.TestCase):
 		prices = [12, 11, 13, 9, 12, 8, 14, 13, 15]
 		self.assertEqual(arrays.buy_sell_stock_twice(prices), 10)
 
+class RearrangeTest(unittest.TestCase):
+	def test_valid_inputs(self):
+		arr = [random.randint(0, 100) for _ in range(100)]
+		arrays.rearrange(arr)
+		# check
+		for i in range(1, len(arr) - 1, 2):
+			self.assertTrue(arr[i-1] <= arr[i])
+			self.assertTrue(arr[i] >= arr[i+1])
+		arr = [random.randint(-100, 100) for _ in range(100)]
+		arrays.rearrange(arr)
+		# check
+		for i in range(1, len(arr) - 1, 2):
+			self.assertTrue(arr[i-1] <= arr[i])
+			self.assertTrue(arr[i] >= arr[i+1])
+
 if __name__ == '__main__':
 	unittest.main()

@@ -175,6 +175,7 @@ def buy_sell_stock_once(prices):
 	return max(profits)
 
 def buy_sell_stock_twice(prices):
+	# TODO: solve this problem in O(n) time and O(1) space
 	N = len(prices)
 	lowest_price_so_far = float('Inf')
 	maximum_profit = 0.0
@@ -189,3 +190,12 @@ def buy_sell_stock_twice(prices):
 		highest_price_so_far = max(highest_price_so_far, price)
 		maximum_profit = max(maximum_profit, highest_price_so_far - price + profit_by_i[i-1])
 	return maximum_profit
+
+def rearrange(A):
+	'''
+	Rearrange elements in A so that A[0] <= A[1] >= A[2] ...
+	'''
+	A.sort()
+	for i in range(1, len(A) - 1, 2):
+		A[i], A[i+1] = A[i+1], A[i]
+	return A
