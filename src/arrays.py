@@ -211,3 +211,20 @@ def rearrange2(A):
 		else:
 			A[i], A[i+1] = (A[i], A[i+1]) if a >= b else (A[i+1], A[i])
 	return A
+
+def generate_primes(n):
+	'''
+	Generate all primes up to and including integer n
+	'''
+	if n < 2:
+		return []
+	primes = [2]
+	counts = [0]
+	for i in range(3, n+1):
+		for j, val in enumerate(primes):
+			counts[j] += 1
+			counts[j] = 0 if counts[j] == val else counts[j]
+		if min(counts) != 0:
+			primes.append(i)
+			counts.append(0)
+	return primes

@@ -166,5 +166,16 @@ class RearrangeTest(unittest.TestCase):
 			self.assertTrue(arr[i-1] <= arr[i])
 			self.assertTrue(arr[i] >= arr[i+1])
 
+class GeneratePrimesTest(unittest.TestCase):
+	def test_valid_inputs(self):
+		self.assertEqual(arrays.generate_primes(-1), [])
+		self.assertEqual(arrays.generate_primes(0), [])
+		self.assertEqual(arrays.generate_primes(1), [])
+		self.assertEqual(arrays.generate_primes(2), [2])
+		self.assertEqual(arrays.generate_primes(3), [2, 3])
+		self.assertEqual(arrays.generate_primes(4), [2, 3])
+		self.assertEqual(arrays.generate_primes(10), [2, 3, 5, 7])
+		self.assertEqual(arrays.generate_primes(20), [2, 3, 5, 7, 11, 13, 17, 19])
+
 if __name__ == '__main__':
 	unittest.main()
