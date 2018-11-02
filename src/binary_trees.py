@@ -5,6 +5,13 @@ class BinaryTreeNode():
 		self.data = data
 		self.left = left
 		self.right = right
+		self.parent = None
+		if left:
+			left.parent = self
+		if right:
+			right.parent = self
+	def __str__(self):
+		return 'BinaryTreeNode(%s)' % str(self.data)
 
 def inorder(tree, fn):
 	if tree:
@@ -297,3 +304,87 @@ def postorder_traversal(tree, fn=print):
 				tree = None
 print('----- Starting post order transversal without recursion test -----')
 postorder_traversal(A, print)
+
+
+def find_successor(tree, target):
+	stack = []
+	found = False
+	while tree or stack:
+		if tree and tree.left:
+			# go left
+			stack.append(tree)
+			tree = tree.left
+		else: # no more left tree
+			if not tree:
+				# back track
+				tree = stack.pop()
+			# process current node
+			if found: # previous node was target
+				return tree
+			elif tree is target:
+				print('Found target', tree.data)
+				found = True
+			# go right
+			tree = tree.right
+
+print('----- Starting find find_successor tests -----')
+print(find_successor(A, I).data)
+
+
+def find_successor_with_link_to_parent(node):
+	if not node:
+		return None
+	if node.right: # return leftmost element in right tree
+		node = node.right
+		while node.left:
+			node = node.left
+	else: # find closest ancestor whose left subtree contains node
+		while node.parent and node.parent.right is node:
+			node = node.parent
+	# node.parent is the next node, retuns none if node is rightmost element
+	return node.parent
+
+print('----- Starting find successor with link to parent tests -----')
+print(find_successor_with_link_to_parent(D))
+
+def reconstruct_preorder(preorder):
+	'''Reconstruct binary tree from preorder traversal with
+	None nodes marked'''
+	def reconstruct_preorder_helper(preorder_iter):
+		# preorder_iter is the iterarting preorder
+		subtree_key = next(preorder_iter)
+		if subtree_key is None: # reached end
+			return None
+		# return subtree with subtree_key as root, and
+		# left_subtree and right_subtree reconstructed
+		# from the preorder_iter, in sequence
+		left_subtree = reconstruct_preorder_helper(preorder_iter)
+		right_subtree = reconstruct_preorder_helper(preorder_iter)
+		return BinaryTreeNode(subtree_key, left_subtree, right_subtree)
+
+	return reconstruct_preorder_helper(iter(p))
+
+print('----- Testing reconstruct preorder -----')
+p = [314, 6, 271, 28, None, None, 0, None, None, 561, None, 3, 17, None, None, None,
+		6, 2, None, 1, 401, 142, None, None, 641, None, None, 257, None, None, 271,
+		None, 28, None, None]
+reconstructed = reconstruct_preorder(p)
+preorder(reconstructed, lambda n, parent: print(n))
+
+def reconstruct_postorder(postorder):
+	def reconstruct_postorder_helper(postorder_deque):
+		subtree_key = postorder_deque.pop() if postorder_deque else None
+		if subtree_key is None:
+			return
+		left_subtree = reconstruct_postorder_helper(postorder_deque)
+		right_subtree = reconstruct_postorder_helper(postorder_deque)
+		return BinaryTreeNode(subtree_key, left_subtree, right_subtree)
+
+	return reconstruct_postorder_helper(deque(postorder))
+
+print('----- Testing reconstruct postorder ------')
+p = [None, None, 28, None, None, 0, 271, None, None, None, 17, None, 3,
+		561, None, None, None, None, 641, 401, None, None, 257, 1,
+		2, None, None, None, 28, 271, 6, 314]
+reconstructed = reconstruct_postorder(p)
+postorder(reconstructed, lambda n, *args: print(n))
